@@ -29,7 +29,6 @@
                                 <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
                                 <x-nav-link href="/todos" :active="request()->is('todos')">ToDo</x-nav-link>
                                 <x-nav-link href="/admin/users" :active="request()->is('contact')">Users</x-nav-link>
-                                <x-nav-link href="/stats" :active="request()->is('stats')">Stats</x-nav-link>
                             </div>
                         </div>
                     </div>

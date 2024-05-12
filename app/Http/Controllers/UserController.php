@@ -66,6 +66,11 @@ class UserController extends Controller
         $todo_not_done_count = $todo_all_count - $todo_done_count;
 
 
+
+        if (!Gate::allows('edit-user', $user)) {
+            return abort(403, 'Unauthorized'); // Or redirect/error message
+        }
+        
         return view('users.stats', [
             'todo' => $todo,
             'todo_all_count' => $todo_all_count,
@@ -74,5 +79,7 @@ class UserController extends Controller
             'todo_done_percent' => round(($todo_done_count / $todo_all_count) * 100),
 
         ]);
+
+
     }
 }

@@ -20,9 +20,8 @@ Route::view('/', 'home');
 Route::middleware('auth')->group(function () {
 
     Route::get('/todos/search', [TodoController::class, 'search']);
-    Route::get('/todos/filterCategory', [TodoController::class, 'filterCategory']);
-    Route::get('/todos/filterTitle', [TodoController::class, 'filterTitle']);
-    Route::get('/todos/filterDeadline', [TodoController::class, 'filterDeadline']);
+    
+    Route::get('/todos/filter', [TodoController::class, 'filter']);
 
 
     Route::get('/todos', [TodoController::class, 'index']);

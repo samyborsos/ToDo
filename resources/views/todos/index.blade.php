@@ -8,16 +8,40 @@
 
 
     <div class="space-y-4">
-        <div>
 
-            <form method="GET" action="/todos/search">
+        <form method="GET" action="/todos/search">
+            @csrf
+
+            <div class="flex items-center space-x-2">
+                <x-form-input name="term" placeholder="Search here" value="{{request('term')}}"></x-form-input>
+                <x-form-button>Search</x-form-button>
+            </div>
+        </form>
+
+            <form method="GET" action="/todos/filter">
                 @csrf
 
-                <div>
-                    <x-form-input name="term" placeholder="Search here" value="{{request('term')}}"></x-form-input>
-                    <x-form-button>Search</x-form-button>
+                <div class="flex items-center space-x-2">
+                    <x-form-button type="submit" name="filter" value="category" >Filter by Category</x-form-button>
+                    <x-form-button type="submit" name="filter" value="title">Filter by Title</x-form-button>
+                    <x-form-button type="submit" name="filter" value="deadline">Filter by Deadline</x-form-button>
+
+
+                    <div class="relative">
+                        <select name="sort_order">
+                            <option value="">-- Sort By --</option>
+                            <option {{request()->get('sort_order') == "asc" ? 'selected' : ''}} value="asc">Ascending</option>
+                            <option {{request()->get('sort_order') == "desc" ? 'selected' : ''}} value="desc">Descending</option>
+                        </select>
+                    </div>
                 </div>
+
+
             </form>
+
+        {{-- <div>
+
+
 
         </div>
 
@@ -48,7 +72,7 @@
             <div>
                 <x-form-button>Filter Deadline ↓</x-form-button>
             </div>
-        </form>
+        </form> --}}
 
         <div class="text-lg">NOT DONE</div>
         @foreach ($todos as $todo)
@@ -62,7 +86,7 @@
                         <p><strong>{{$todo['title']}}</strong></p>
                         <p class="text-gray-500">Deadline: {{$todo['deadline']}}</p>
                         <p> {{($todo['done'])? "Done" : "Not done"}} </p>
-                        <p> {{$todo->category}} </p>
+                        <p> <strong>{{$todo->category}}</strong> </p>
                     </div>
                 </a>
             @endif

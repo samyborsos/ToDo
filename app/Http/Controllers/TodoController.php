@@ -90,7 +90,7 @@ class TodoController extends Controller
         return redirect('/todos');
     }
 
-    public function search()
+    public function search(Request $request)
     {
         $search = request('term');
         //$todos = todo::search(request('term'))->paginate(15);
@@ -108,46 +108,54 @@ class TodoController extends Controller
         ]);
     }
 
-    public function filterCategory()
+    public function filter(Request $request)
     {
+        $sortBy = $request->get('sort_by', 'created_at'); // Default sort by created_at
+        //dd($request->get('sort_order'));
+        //$sortOrder = $request->get('sort_order', 'desc');
+        $sortOrder = $request->get('sort_order');
+        $filter = $request->get('filter'); // New filter parameter
 
-        $todos = Todo::orderBy('category', 'desc')
-        ->with('user')
-        ->where('user_id', Auth::id())
-        ->latest()
-        ->paginate(10);
+        $query = Todo::query()
+            ->with('user')
+            ->where('user_id', Auth::id());
+
+        if ($sortOrder) {
+            switch ($sortOrder) {
+                case 'asc':
+                    $query->orderBy($sortBy, 'asc');
+                    break;
+                case 'desc':
+                    $query->orderBy($sortBy, 'desc');
+                    break;
+            }
+        }
+
+        if ($filter) {
+            switch ($filter) {
+                case 'category':
+                    $query->orderBy('category', $sortOrder);
+                    break;
+                case 'title':
+                    $query->orderBy('title', $sortOrder);
+                    break;
+                case 'deadline':
+                    $query->orderBy('deadline', $sortOrder);
+                    break;
+            }
+        }
+
+
+
+        $todos = $query->latest()->paginate(10);
 
         return view('todos.index', [
-            'todos' => $todos
+            'todos' => $todos,
+            'sortBy' => $sortBy,
+            'sortOrder' => $sortOrder,
+            'filter' => $filter
         ]);
     }
 
-    public function filterTitle()
-    {
-
-        $todos = Todo::orderBy('title', 'asc')
-        ->with('user')
-        ->where('user_id', Auth::id())
-        ->latest()
-        ->paginate(10);
-
-        return view('todos.index', [
-            'todos' => $todos
-        ]);
-    }
-
-    public function filterDeadline()
-    {
-
-        $todos = Todo::orderBy('deadline', 'desc')
-        ->with('user')
-        ->where('user_id', Auth::id())
-        ->latest()
-        ->paginate(10);
-
-        return view('todos.index', [
-            'todos' => $todos
-        ]);
-    }
 }
 

@@ -30,8 +30,8 @@ class AppServiceProvider extends ServiceProvider
             return ($todo->user->id == $user->id || $user->isAdmin());
         });
 
-        Gate::define('edit-user', function (User $user) {
-            return Auth::user()->id === $user->id;
+        Gate::define('edit-user', function (User $user, User $profileUser) {
+            return $user->id === $profileUser->id;
         });
 
 
