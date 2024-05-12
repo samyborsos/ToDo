@@ -20,9 +20,8 @@ Route::view('/', 'home');
 Route::middleware('auth')->group(function () {
 
     Route::get('/todos/search', [TodoController::class, 'search']);
-    
-    Route::get('/todos/filter', [TodoController::class, 'filter']);
 
+    Route::get('/todos/filter', [TodoController::class, 'filter']);
 
     Route::get('/todos', [TodoController::class, 'index']);
 
@@ -31,35 +30,34 @@ Route::middleware('auth')->group(function () {
     Route::post('/todos', [TodoController::class, 'store']);
 
     Route::get('/todos/{todo}/edit', [TodoController::class, 'edit'])
-    ->can('edit-todo', 'todo');
+        ->can('edit-todo', 'todo');
 
     Route::patch('todos/{todo}', [TodoController::class, 'update'])
-    ->can('edit-todo', 'todo');
+        ->can('edit-todo', 'todo');
 
     Route::delete('/todos/{todo}', [TodoController::class, 'destroy'])
-    ->can('edit-todo', 'todo');
+        ->can('edit-todo', 'todo');
 
+    Route::get('/todos/{todo}', [TodoController::class, 'show']);
 });
-Route::get('/todos/{todo}', [TodoController::class, 'show']);
-
-Route::get('/users/{user}', [UserController::class, 'show'])
-    ->can('edit-user','user');
-
-Route::get('/users/{user}/stats', [UserController::class, 'stats'])
-    ->can('edit-user','user');
 
 
+Route::middleware(['auth', 'can:edit-user,user'])->group(function () {
 
-Route::post('/users', [UserController::class, 'store']);
+    Route::get('/users/{user}', [UserController::class, 'show']);
 
-    Route::get('/users/{user}/edit', [UserController::class, 'edit'])
-    ->can('edit-user', 'user');
+    Route::get('/users/{user}/stats', [UserController::class, 'stats']);
 
-    Route::patch('users/{user}', [UserController::class, 'update'])
-    ->can('edit-user', 'user');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit']);
 
-    Route::delete('/users/{user}', [UserController::class, 'destroy'])
-    ->can('edit-user', 'user');
+    Route::patch('users/{user}', [UserController::class, 'update']);
+
+    Route::delete('/users/{user}', [UserController::class, 'destroy']);
+});
+
+
+
+
 
 //Auth
 
@@ -69,5 +67,3 @@ Route::post('/logout', [SessionController::class, 'destroy']);
 
 Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
 Route::post('/register', [RegisteredUserController::class, 'store']);
-
-
