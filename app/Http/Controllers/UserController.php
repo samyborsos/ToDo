@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Todo;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,8 +54,25 @@ class UserController extends Controller
         return redirect('/users/' .  $user->id )->with('success', 'User edited successfully!');
     }
 
-    public function stats()
+    public function stats(User $user)
     {
-        return view('users.stats');
+        $todo = Todo::with('user')
+        ->where('user_id', $user->id);
+
+        $todo_all_count = $todo->count();
+
+        $todo_done_count = $todo->where('done', true)->count();
+
+        $todo_not_done_count = $todo_all_count - $todo_done_count;
+
+
+        return view('users.stats', [
+            'todo' => $todo,
+            'todo_all_count' => $todo_all_count,
+            'todo_done_count' => $todo_done_count,
+            'todo_not_done_count' => $todo_not_done_count,
+            'todo_done_percent' => round(($todo_done_count / $todo_all_count) * 100),
+
+        ]);
     }
 }

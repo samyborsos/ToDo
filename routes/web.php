@@ -24,7 +24,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/todos/filterTitle', [TodoController::class, 'filterTitle']);
     Route::get('/todos/filterDeadline', [TodoController::class, 'filterDeadline']);
 
-    Route::get('/stats', [UserController::class, 'stats']);
 
     Route::get('/todos', [TodoController::class, 'index']);
 
@@ -46,6 +45,10 @@ Route::get('/todos/{todo}', [TodoController::class, 'show']);
 
 Route::get('/users/{user}', [UserController::class, 'show'])
     ->can('edit-user','user');
+
+Route::get('/users/{user}/stats', [UserController::class, 'stats'])
+    ->can('edit-user','user');
+
 
 
 Route::post('/users', [UserController::class, 'store']);
