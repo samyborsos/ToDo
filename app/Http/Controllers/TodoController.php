@@ -22,8 +22,11 @@ class TodoController extends Controller
     }
     public function show(Todo $todo)
     {
+
+
         return view('todos.show', [
             'todo' => $todo,
+            'comments' => $todo->comments,
         ]);
     }
 

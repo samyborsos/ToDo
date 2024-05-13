@@ -5,20 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Todo extends Model
+class Comment extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    public function user()
+    
+    public function todo()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Todo::class);
     }
-
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
-
 }

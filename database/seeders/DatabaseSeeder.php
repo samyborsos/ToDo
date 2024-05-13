@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Todo;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -28,9 +29,16 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        Todo::factory(10)->create([
+        $todos = Todo::factory(10)->create([
             'user_id' => 2,
         ]);
+
+        foreach ($todos as $todo) {
+            Comment::factory(4)->create([
+                'todo_id' => $todo->id,
+                'user_id' => $todo->user_id,
+            ]);
+        };
 
 
 

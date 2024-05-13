@@ -56,7 +56,7 @@ Route::middleware(['auth', 'can:edit-user,user'])->group(function () {
 });
 
 
-
+Route::post('todos/{todo}/comments', [CommentController::class, 'store']);
 
 
 //Auth
