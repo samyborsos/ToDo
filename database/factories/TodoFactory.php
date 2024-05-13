@@ -20,10 +20,10 @@ class TodoFactory extends Factory
         return [
             'user_id' => User::factory(),
             'title' => fake()->sentence(),
-            'deadline' => fake()->dateTime(),
+            'deadline' => fake()->dateTimeBetween('0days','5months'),
             'category' => fake()->randomElement(['alacsony','kozepes','magas']),
             'done' => fake()->boolean(),
-            'done_at' => fake()->dateTimeBetween('-1month', '1month'),
+            'done_at' => fake()->dateTimeBetween('0days','5months'),
             'image_url' => 'https://placehold.co/600x400'
         ];
     }

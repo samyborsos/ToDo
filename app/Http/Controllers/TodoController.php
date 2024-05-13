@@ -37,7 +37,6 @@ class TodoController extends Controller
         request()->validate([
             'title' => ['required', 'string', 'max:255'], // Title must be required, string, and under 255 characters
             'deadline' => ['required', 'date', 'after:today'], // Deadline must be required, a date, and after today
-            'done' => ['required', 'boolean'], // Done flag must be required and a boolean value
             'category' => ['required', 'string', 'in:alacsony,közepes,magas'], // Category must be required, string, and one of the specified options
             'image_url' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Existing image validation
 
@@ -77,7 +76,7 @@ class TodoController extends Controller
         //replace image
         if (request()->has('image')) {
             if ($todo->image_url) {
-                Storage::disk('images')->delete($todo->image_url);
+                Storage::disk('public')->delete($todo->image_url);
             }
         }
         if (isset($validated['image_url'])) {
@@ -97,10 +96,15 @@ class TodoController extends Controller
 
     public function destroy(Todo $todo)
     {
+        if ($todo->image_url) {
+            Storage::disk('public')->delete($todo->image_url);
+        }
+
         $todo->delete();
 
-        return redirect('/todos');
+        return redirect('/todos')->with('success', 'Todo deleted successfully');;
     }
+
 
     public function search(Request $request)
     {
