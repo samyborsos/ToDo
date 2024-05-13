@@ -35,7 +35,11 @@ class TodoController extends Controller
     public function store()
     {
         request()->validate([
-            'title' => ['required'],
+            'title' => ['required', 'string', 'max:255'], // Title must be required, string, and under 255 characters
+            'deadline' => ['required', 'date', 'after:today'], // Deadline must be required, a date, and after today
+            'done' => ['required', 'boolean'], // Done flag must be required and a boolean value
+            'category' => ['required', 'string', 'in:alacsony,közepes,magas'], // Category must be required, string, and one of the specified options
+            'image_url' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Existing image validation
 
         ]);
 
@@ -46,6 +50,7 @@ class TodoController extends Controller
             'deadline' => request('deadline'),
             'category' => request('category'),
             'done' => false,
+            'image_url' => request('image_url')->store('images', 'public'), // Store in public/images
         ]);
 
         return redirect('/todos')->with('success', 'todo created successfully!');
@@ -61,19 +66,26 @@ class TodoController extends Controller
     public function update(Todo $todo)
     {
         $validated = request()->validate([
-            'title' => ['required'],
-            'deadline' => ['required','date'],
-            'done' => ['required'],
-            'category' => ['required'],
+            'title' => ['required', 'string', 'max:255'], // Title must be required, string, and under 255 characters
+            'deadline' => ['required', 'date', 'after:today'], // Deadline must be required, a date, and after today
+            'done' => ['required', 'boolean'], // Done flag must be required and a boolean value
+            'category' => ['required', 'string', 'in:alacsony,közepes,magas'], // Category must be required, string, and one of the specified options
+            'image_url' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Existing image validation
+
         ]);
 
-       /*  $validated['author_id'] = Auth::user()->id;
-        $validated['image_url'] = request('image_url')->store('images', 'public'); // Store in public/images
+        //replace image
+        if (request()->has('image')) {
+            if ($todo->image_url) {
+                Storage::disk('images')->delete($todo->image_url);
+            }
+        }
+        if (isset($validated['image_url'])) {
+            $validated['image_url'] = request('image_url')->store('images', 'public');
+            Storage::disk('public')->delete($todo->image_url);
+        }
 
-        Storage::disk('public')->delete($todo->image_url);
-
-        $todo->update($validated); */
-
+        //if done checked, update done_at
         if($validated['done'] === true) {
             $validated['done_at'] = time();
         }

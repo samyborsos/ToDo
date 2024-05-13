@@ -24,6 +24,7 @@ class TodoFactory extends Factory
             'category' => fake()->randomElement(['alacsony','kozepes','magas']),
             'done' => fake()->boolean(),
             'done_at' => fake()->dateTimeBetween('-1month', '1month'),
+            'image_url' => 'https://placehold.co/600x400'
         ];
     }
 }

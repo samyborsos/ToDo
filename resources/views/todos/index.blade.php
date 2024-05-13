@@ -83,6 +83,7 @@
                         alt="{{$todo->title}}">
                     --}}
                     <div class="flex justify-around">
+                        <p><img src="{{ str_starts_with($todo->image_url, 'http') ? $todo->image_url : 'storage/' . $todo->image_url}}" class="object-scale-down" style="width:100px" alt="placeholder"></p>
                         <p><strong>{{$todo['title']}}</strong></p>
                         <p class="text-gray-500">Deadline: {{$todo['deadline']}}</p>
                         <p> {{($todo['done'])? "Done" : "Not done"}} </p>

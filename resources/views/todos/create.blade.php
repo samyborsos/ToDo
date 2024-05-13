@@ -43,6 +43,16 @@
                         </div>
                     </x-form-field>
 
+                    <x-form-field>
+                        <x-form-label for="image_url">image_url</x-form-label>
+                        <div class="mt-2">
+
+                            <x-form-input type="file" name="image_url" id="image_url" placeholder="todo image_url example" required=""></x-form-input>
+
+                            <x-form-error name="image_url"/>
+                        </div>
+                    </x-form-field>
+
                 </div>
             </div>
 

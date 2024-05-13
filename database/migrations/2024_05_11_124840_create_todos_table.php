@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('category');
             $table->boolean('done');
             $table->timestamp('done_at')->nullable();
+            $table->string('image_url');
             $table->timestamps();
         });
     }
