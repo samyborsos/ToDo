@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
 class RegisteredUserController extends Controller
@@ -17,21 +18,26 @@ class RegisteredUserController extends Controller
     public function store()
     {
         // validate
-        $validatedAttributes = request()->validate([
+        request()->validate([
             'name'          => ['required'],
             'email'         => ['required', 'email'],
             'password'      => ['required', Password::min(6), 'confirmed'], // laravel/docs/validation
-            'admin'         => ['required']
         ]);
 
         // create that user
         //dd($validatedAttributes);
-        $user = User::create($validatedAttributes);
+        //dd(request());
+        $user = User::create([
+            'name' => request('name'),
+            'email' => request('email'),
+            'password' =>  Hash::make(request('password')),
+            'admin' => false,
+        ]);
 
         // log in
         Auth::login($user);
 
         // redirect to dashboard
-        return redirect('/blogs');
+        return redirect('/todos');
     }
 }

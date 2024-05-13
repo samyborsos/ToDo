@@ -39,7 +39,7 @@
 
                         <div class="mt-2">
 
-                            <x-form-input name="password" id="password" type="password" required/>
+                            <x-form-input name="password" id="password" type="password" value="password" required/>
 
                             <x-form-error name="password"/>
                         </div>
@@ -51,18 +51,10 @@
 
                         <div class="mt-2">
 
-                            <x-form-input name="password_confirmation" id="password_confirmation" type="password" required/>
+                            <x-form-input name="password_confirmation" id="password_confirmation" type="password" value="password" required/>
 
                             <x-form-error name="password_confirmation"/>
                         </div>
-
-                    </x-form-field>
-
-                    <x-form-field hidden>
-
-
-                        <x-form-input name="admin" id="admin" type="text" value="0"/>
-
 
                     </x-form-field>
 

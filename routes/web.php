@@ -29,16 +29,16 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/todos', [TodoController::class, 'store']);
 
-    Route::get('/todos/{todo}/edit', [TodoController::class, 'edit'])
-        ->can('edit-todo', 'todo');
+        Route::middleware('can:edit-todo,todo')->group(function() {
 
-    Route::patch('todos/{todo}', [TodoController::class, 'update'])
-        ->can('edit-todo', 'todo');
+            Route::get('/todos/{todo}/edit', [TodoController::class, 'edit']);
 
-    Route::delete('/todos/{todo}', [TodoController::class, 'destroy'])
-        ->can('edit-todo', 'todo');
+            Route::patch('todos/{todo}', [TodoController::class, 'update']);
 
-    Route::get('/todos/{todo}', [TodoController::class, 'show']);
+            Route::delete('/todos/{todo}', [TodoController::class, 'destroy']);
+
+            Route::get('/todos/{todo}', [TodoController::class, 'show']);
+        });
 });
 
 
