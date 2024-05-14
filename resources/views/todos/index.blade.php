@@ -88,6 +88,10 @@
                         <p class="text-gray-500">Deadline: {{$todo['deadline']}}</p>
                         <p> {{($todo['done'])? "Done" : "Not done"}} </p>
                         <p class="{{$todo->categoryStyle()}}"> <strong>{{$todo->category}}</strong> </p>
+
+                        {{-- <x-box>MOD</x-box>
+                        <x-box>DEL</x-box> --}}
+
                     </div>
                 </a>
             @endif
