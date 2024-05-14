@@ -72,7 +72,7 @@ class TodoController extends Controller
             'deadline' => ['required', 'date', 'after:today'], // Deadline must be required, a date, and after today
             'done' => ['required', 'boolean'], // Done flag must be required and a boolean value
             'category' => ['required', 'string', 'in:alacsony,közepes,magas'], // Category must be required, string, and one of the specified options
-            'image_url' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Existing image validation
+            'image_url' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Existing image validation
 
         ]);
 

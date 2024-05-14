@@ -21,4 +21,18 @@ class Todo extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function categoryStyle()
+    {
+        switch ($this->category) {
+            case 'magas':
+                return 'text-red-500'; // Adjust class names as needed
+            case 'kozepes':
+                return 'text-yellow-500';
+            case 'alacsony':
+                return 'text-green-500';
+            default:
+                return '';
+        }
+    }
+
 }

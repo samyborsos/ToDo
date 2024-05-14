@@ -80,7 +80,7 @@
 
                                 <input type="file" name="image_url" id="image_url"
                                     class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                    placeholder="Shift Leader" value="{{$todo->image_url}}" required>
+                                    placeholder="Shift Leader" value="{{$todo->image_url}}">
                             </div>
                             @error('image_url')
                             <p class="text-xs text-red-500 font-semibold mt-2">{{$message}} </p>
